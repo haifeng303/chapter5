@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ribbon-feign
+  cloud:
+    config:
+      uri: http://localhost:12000/
+      profile: dev
+
+feign:
+  hystrix:
+    enabled: true
+
+
+server:
+  port: 8765

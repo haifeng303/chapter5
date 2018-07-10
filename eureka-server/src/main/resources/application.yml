@@ -1,0 +1,16 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defalutZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    renewal-percent-threshold: 0.45
+    #enable-self-preservation: false #设为false，关闭自我保护主要
+
+
+

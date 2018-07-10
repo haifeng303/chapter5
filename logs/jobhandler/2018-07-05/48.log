@@ -1,0 +1,9 @@
+2018-07-05 14:31:10 [com.xxl.job.core.thread.JobThread#run]-[123]-[Thread-32] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2018-07-05 14:31:10 [com.xxl.job.core.thread.JobThread#run]-[128]-[Thread-32] <br>----------- xxl-job job execute end(finish) -----------<br>----------- ReturnT:ReturnT [code=200, msg=null, content=null]
+2018-07-05 14:31:15 [com.xxl.job.core.thread.JobThread#run]-[137]-[Thread-32] <br>----------- JobThread toStop, stopReason:人工手动终止
+2018-07-05 14:31:15 [com.xxl.job.core.thread.JobThread#run]-[145]-[Thread-32] <br>----------- JobThread Exception:java.lang.InterruptedException
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.reportInterruptAfterWait(AbstractQueuedSynchronizer.java:2014)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2088)
+	at java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+	at com.xxl.job.core.thread.JobThread.run(JobThread.java:111)
+<br>----------- xxl-job job execute end(error) -----------

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <jmxConfigurator/>
+
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+
+    <property name="log.basepath" value="${user.dir}/logs"/>
+    <property name="logFileName" value="${appName}"/>
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+             <level>ERROR</level>
+         </filter>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到文件-->
+    <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.basepath}/${logFileName}/${logFileName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.basepath}/${logFileName}/%d{yyyy-MM-dd}/${logFileName}-%i.log.zip</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--<root level="ERROR">-->
+        <!--<appender-ref ref="console"/>-->
+        <!--<appender-ref ref="logFile"/>-->
+    <!--</root>-->
+
+    <logger name="com.example" level="INFO" additivity="false">
+        <appender-ref ref="logFile"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <!--定时任务日志-->
+    <logger name="com.xxl.job.admin" level="INFO" additivity="false">
+        <appender-ref ref="logFile"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+
+</configuration>

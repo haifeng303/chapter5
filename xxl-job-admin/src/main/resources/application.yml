@@ -1,0 +1,75 @@
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+      static-locations: classpath:/static
+  freemarker:
+    suffix: .ftl
+    settings:
+      template_update_delay: 0
+      default_encoding: UTF-8
+      output_encoding: UTF-8
+      locale: zh_CN
+      number_format: 0.##########
+      date_format: yyyy-MM-dd
+      time_format: HH:mm:ss
+      datetime_format: yyyy-MM-dd HH:mm:s
+      classic_compatible: true
+      template_exception_handler: ignore
+    content-type: text/html
+    allow-request-override: false
+    cache: true
+    check-template-location: true
+    charset: UTF-8
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+
+
+
+  datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/chapter?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+      username: root
+      password: 123456
+  application:
+    name: xxl-job-admin
+
+
+mybatis:
+  type-aliases-package: com.example.common.POJO.DO
+  mapper-locations: classpath:mybatis-mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+#swagger
+swagger:
+  title: ${spring.application.name}接口文档
+  description: root:/${spring.application.name}
+  base-package: com.xxl.job.admin
+
+#log
+
+logging:
+  config: classpath:logback-spring.xml
+#  file: ${user.dir}/logs/${spring.application.name}/${spring.application.name}.log
+server:
+  port: 12001
+
+
+
+xxl:
+  job:
+    mail:
+      host: smtp.126.com
+      port: 25
+      username: hf303@126.com
+      password: rhaifeng303319
+      ssl: false
+      sendNick: 《任务调度平台XXL-JOB》
+    login:
+      username: admin
+      password: 123456
+    accessToken:
+    i18n:

@@ -1,0 +1,92 @@
+package com.xxl.job.admin.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.xxl.job.admin.core.schedule.XxlJobDynamicScheduler;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+
+import javax.sql.DataSource;
+
+/**
+ * @author haifeng
+ * @date 2018/6/29 14:54
+ */
+@Configuration
+public class DataSourceConfig {
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
+
+    @Value("${xxl.job.accessToken}")
+    private String ccessToken;
+    //destroy-method="close"的作用是当数据库连接不使用的时候,就把该连接重新放到数据池中,方便下次使用调用.
+    @Bean(destroyMethod = "close")
+    public DataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(dbUsername);//用户名
+        dataSource.setPassword(dbPassword);//密码
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setInitialSize(2);//初始化时建立物理连接的个数
+        dataSource.setMaxActive(20);//最大连接池数量
+        dataSource.setMinIdle(0);//最小连接池数量
+        dataSource.setMaxWait(60000);//获取连接时最大等待时间，单位毫秒。
+        dataSource.setValidationQuery("SELECT 1");//用来检测连接是否有效的sql
+        dataSource.setTestOnBorrow(false);//申请连接时执行validationQuery检测连接是否有效
+        dataSource.setTestWhileIdle(true);//建议配置为true，不影响性能，并且保证安全性。
+        dataSource.setPoolPreparedStatements(false);//是否缓存preparedStatement，也就是PSCache
+        return dataSource;
+    }
+
+    @Bean(name = "quartzScheduler")
+    public SchedulerFactoryBean quartzScheduler(){
+        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
+        schedulerFactoryBean.setDataSource(dataSource());
+        schedulerFactoryBean.setAutoStartup(true);
+        schedulerFactoryBean.setStartupDelay(20);
+        schedulerFactoryBean.setOverwriteExistingJobs(true);
+        schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContextKey");
+        schedulerFactoryBean.setConfigLocation(new ClassPathResource("quartz.properties"));
+        return  schedulerFactoryBean;
+    }
+
+    @Bean
+    public XxlJobDynamicScheduler xxlJobDynamicScheduler(){
+        XxlJobDynamicScheduler xxlJobDynamicScheduler = new XxlJobDynamicScheduler();
+        xxlJobDynamicScheduler.setScheduler(quartzScheduler().getScheduler());
+        xxlJobDynamicScheduler.setAccessToken(ccessToken);
+
+        return xxlJobDynamicScheduler;
+    }
+
+
+    /**
+     *配置freemarker bean的属性
+     * @param: []
+     * @return
+     */
+//    @Bean
+//    public PropertiesFactoryBean propertiesFactoryBean(){
+//        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+//        propertiesFactoryBean.setLocation(new ClassPathResource("freemarker.properties"));
+//        return  propertiesFactoryBean;
+//    }
+//    @Bean
+//    public FreeMarkerConfigurer freeMarkerConfigurer(){
+//        FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+//        try {
+//            freeMarkerConfigurer.setFreemarkerSettings(propertiesFactoryBean().getObject());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return freeMarkerConfigurer;
+//    }
+}

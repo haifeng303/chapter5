@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: ribbon-restTemplate
+  cloud:
+    config:
+      uri: http://localhost:12000/
+      profile: dev
+
+server:
+  port: 8764

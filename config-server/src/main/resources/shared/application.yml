@@ -1,0 +1,29 @@
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+mybatis:
+  type-aliases-package: com.example.common.POJO.DO
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+
+#swagger
+swagger:
+  title: ${spring.application.name}接口文档
+  description: root:/${spring.application.name}
+  base-package: com.example
+
+#log
+logging:
+  config: classpath:logback-spring.xml
+  file: ${user.dir}/logs/${spring.application.name}/${spring.application.name}.log
+
+
