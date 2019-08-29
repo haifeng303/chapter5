@@ -7,4 +7,4 @@ eureka:
     hostname: peer1
   client:
     service-url:
-      defalutZone: http://peer2:8763/eureka/
+      defalutZone: http://peer2:8763/eureka/,http://peer1:8761/eureka/
