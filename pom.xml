@@ -47,7 +47,7 @@
 		<spring-cloud.version>Dalston.SR4</spring-cloud.version>
 		<poi.version>3.9</poi.version>
 		<spring-boot-admin.version>1.5.4</spring-boot-admin.version>
-		<xxl-job.version>1.9.1</xxl-job.version>
+		<xxl-job.version>2.3.0</xxl-job.version>
 		<druid.version>1.0.19</druid.version>
 		<swagger-start.version>1.5.1.RELEASE</swagger-start.version>
 		<jwt-version>0.6.0</jwt-version>
